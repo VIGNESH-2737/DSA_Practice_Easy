@@ -30,7 +30,7 @@ class RecursionEasy{
 // 5. Fibonacci
   public static int fib(int n){
       if(n == 0 || n == 1){
-          return 1;
+          return n;
       }
       return fib(n-1) + fib(n-2);
   }
@@ -42,6 +42,51 @@ class RecursionEasy{
       System.out.print(n+" ");
       countDown(n-1);
   }
+
+  //7. count digits
+  public static int countDigits(int num){
+    if(num == 0){
+      return 0;
+    }
+    return 1 + countDigits(num/10);
+  }
+  
+  //8 power of number
+  public static double power(double x, int n){
+      if(n == 0){
+          return 1;
+      }
+      
+      if(n == 1){
+          return x;
+      }
+      
+      return x*power(x, n-1);
+  }
+  
+  //9 check Palindrome
+  public static boolean isPalindrome(String str){
+      str = str.toLowerCase();
+      str = str.replaceAll("[^a-zA-Z0-9]", "");
+      if(str.length() <= 1){
+          return true;
+      }
+      if(str.charAt(0) == str.charAt(str.length()-1)){
+          return isPalindrome(str.substring(1, str.length()-1));
+      }else{
+          return false;
+      }
+  }
+  
+  // 10. GCD Eucliedian Algorithm
+  public static int gcd(int a, int b){
+      if(b == 0){
+          return a;
+      }
+      return (b, a%b);
+  }
+  
+    
   
   
   public static void main(String[] args) {
@@ -65,5 +110,25 @@ class RecursionEasy{
     //6
         System.out.print("Countdown: ");
         countDown(n);
+
+    //7 
+        int num = 12345;
+        System.out.println("Number of digits in " + num + ": " + countDigits(num));
+        
+    //8
+        double x1 = 2.0;
+        int n1 = 3;
+        System.out.println(x1 + "^" + n1 + ": " + power(x1, n1));
+    
+    //9
+        String s = "madam";
+        String s1 = "A man, a plan, a canal, Panama";
+        System.out.println("Is '" + s + "' a palindrome? " + isPalindrome(s));
+        
+    //10
+    int a1 = 48, b1 = 18;
+    System.out.println("GCD of " + a1 + " and " + b1 + ": " + gcd(a1, b1));
+
+        
     }
 }
