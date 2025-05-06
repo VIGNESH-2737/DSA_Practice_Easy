@@ -85,6 +85,25 @@ class RecursionEasy{
       }
       return (b, a%b);
   }
+
+  // 11. print array elements using array.
+  public static void rec(int[] arr){
+        rec(arr, arr.length-1);
+    }
+    // left to right
+    public static void rec(int[] arr, int index){
+        if(index < 0)
+            return;
+            
+        rec(arr, index-1);
+        System.out.print(arr[index]+" ");
+
+      //right to left
+      //System.out.print(arr[index]+" ");
+      //rec(arr, index-1);
+        
+        return;
+    }
   
     
   
