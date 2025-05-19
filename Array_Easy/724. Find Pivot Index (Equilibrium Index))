@@ -1,0 +1,46 @@
+class Solution {
+    public int pivotIndex(int[] nums) {
+
+        //Method 1 
+
+        // int leftSum = 0;
+        // int total = 0;
+
+        // for(int i = 0; i<nums.length; i++){
+        //     total += nums[i];
+        // }
+
+        // for(int index=0; index < nums.length; index++){
+        //     int pivot = nums[index];
+        //     int rightSum = total-pivot-leftSum;
+        //     if(leftSum == rightSum){
+        //         return index;
+        //     }
+
+        //     leftSum += nums[index];
+        // }
+
+        //Method Two
+
+        int leftSum = 0;
+        int total = 0;
+
+        for(int i = 0; i<nums.length; i++){
+            total += nums[i];
+        }
+
+        for(int index=0; index < nums.length; index++){
+            leftSum += nums[index];
+            if(leftSum == total){
+                return index;
+            }
+            
+            total -= nums[index];
+
+            //leftSum += nums[index];
+        }
+
+
+        return -1;
+    }
+}
