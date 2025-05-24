@@ -1,0 +1,82 @@
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+
+class Main {
+    public static void main(String[] args) {
+    double[][] A = {
+        {1, 0},
+        {0, 1}
+    };
+    double[][] B = {
+        {5, 7},
+        {6, 8}
+    };
+    double[][] X = MatrixSolver.solveMatrixEquation(A, B);
+
+    if (X != null) {
+        System.out.println("Solution matrix X:");
+        for (int i = 0; i < X.length; i++) {
+            for (int j = 0; j < X[0].length; j++) {
+                System.out.print(X[i][j] + " ");
+            }
+            System.out.println();
+        }
+    } else {
+        System.out.println("No solution exists.");
+    }
+}
+
+    public static double[][] solveMatrixEquation(double[][] A, double[][] B) {
+        // Your code here
+        
+        
+        
+        return null;
+    }
+    
+    public static double[][] findDeterminant(double[][] A, int n){
+        
+        if(n == 1){
+            return A[0][0];
+        }
+        
+        if(n == 2){
+            return A[0][0]*A[1][1] - A[0][1]*A[1][0];
+        }
+        
+        double det = 0;
+        
+        
+        double[][] minor = new double[n-1][n-1];
+        
+        for(int col=0; col < n; col++){
+            getMinor(A, minor, 0, col);
+    
+            det += Math.pow(-1, col)* A[0][col] * determinant(minor);
+        }
+        
+        return det;
+    }
+    
+    public static void getMinor(double[][] matrix, double[][] minor, int rowToRemove, int colToRemove){
+        
+        int r=0;
+        for(int i = 0; i < matrix.length; i++){
+            
+            if(i == rowToRemove) continue;
+            
+            int c = 0;
+            for(int j = 0; j < matrix.length; j++){
+                
+                if(j == colToRemove) continue;
+                
+                minor[r][c] = matrix[i][j];
+                c++;
+            }
+            r++;
+            
+        }
+        
+    }
+
+}
