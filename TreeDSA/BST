@@ -1,0 +1,106 @@
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+
+class Main {
+    public static void main(String[] args) {
+        Trees t = new Trees();
+        
+        t.insertNode(1);
+        t.insertNode(2);
+        t.insertNode(3);
+        t.insertNode(4);
+        t.insertNode(5);
+        t.insertNode(5);
+        t.insertNode(4);
+        t.insertNode(3);
+        t.insertNode(2);
+        t.insertNode(1);
+        
+        t.inorder(t.root);
+        System.out.println();
+        t.preorder(t.root);
+        System.out.println();
+        t.postorder(t.root);
+        
+        
+    }
+}
+
+
+class Node{
+    
+    int data;
+    
+    Node left;
+    Node right;
+    
+    public Node(int data){
+        this.data = data;
+    }
+}
+
+class Trees{
+    Node root;
+    
+    void insertNode(int data){
+        Node current = root;
+        Node newNode = new Node(data);
+        
+        if(current == null){
+            root = newNode;
+        }else{
+        //current = root;
+        while(current.left != null || current.right != null){
+            if(current.data >= data){
+                
+                if(current.left == null){
+                    current.left = newNode;
+                    return;
+                }
+                current = current.left;
+            
+                
+            }else{
+                
+                if(current.right == null){
+                    current.right = newNode;
+                    return;
+                }
+                current = current.right;
+            }
+        }
+        
+        if(current.data >= data){
+            current.left = newNode;
+        }else{
+            current.right = newNode;
+        }
+        
+        //System.out.println(root.data);
+    }
+    }
+    
+    void inorder(Node root){
+        if(root == null) return;
+        
+        inorder(root.left);
+        System.out.print(root.data);
+        inorder(root.right);
+    }
+    
+    void preorder(Node root){
+        if(root == null) return;
+        
+        System.out.print(root.data);
+        preorder(root.left);
+        preorder(root.right);
+    }
+    
+    void postorder(Node root){
+        if(root == null) return;
+        
+        postorder(root.left);
+        postorder(root.right);
+        System.out.print(root.data);
+    }
+}
