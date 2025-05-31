@@ -8,10 +8,10 @@ public class Solution {
         int k = 2;
         int[] dp = new int[stones.length+1];
         Arrays.fill(dp, -1);
-        return canCross(stones ,stones.length-1, dp);
+        return canCross(stones ,stones.length-1, dp, k);
     }
     
-    static public int canCross(int[] stones, int index, int[] dp){
+    static public int canCross(int[] stones, int index, int[] dp, int k){
 
         if(index <= 0) return 0;
         
@@ -21,9 +21,11 @@ public class Solution {
 
         int left=Integer.MAX_VALUE;
         
-        for(int j=1; j<= 2; j++){
+        dp[0] = 0;
+        
+        for(int j=1; j<= k; j++){
             if(index-j >= 0){
-            left = canCross(stones,index-j, dp) + Math.abs(stones[index]-stones[index-j]);
+            left = canCross(stones,index-j, dp, k) + Math.abs(stones[index]-stones[index-j]);
             minSteps = Math.min(left, minSteps);
             }
         }
