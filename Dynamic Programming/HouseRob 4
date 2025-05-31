@@ -1,0 +1,58 @@
+class Solution {
+    public int rob(int[] nums) {
+
+        if(nums.length == 0) return 0;
+        if(nums.length == 1) return nums[0];
+
+        int[] nums1 = new int[nums.length];
+        int[] nums2 = new int[nums.length];
+        int[] dp1 = new int[nums.length+1];
+        int[] dp2 = new int[nums.length+1];
+
+        int index = 0;
+
+        for(int num: nums){
+
+           if(index != nums.length-1) nums1[index] = num;
+           if(index != 0) nums2[index] = num;
+           index++;
+        }
+
+        Arrays.fill(dp1, -1);
+        Arrays.fill(dp2, -1);
+        
+        return Math.max(hrob2(nums1), hrob2(nums2));
+        
+    }
+
+    public int hrob(int[] nums,int stop,int index, int[] dp){
+
+        if(index < stop) return 0;
+
+        if(index == stop) return nums[stop];
+
+        if(dp[index] != -1) return dp[index];
+
+        int pick = nums[index];
+        if(index > 1)
+            pick += hrob(nums, stop, index-2, dp);
+
+        int notpick = 0 + hrob(nums, stop, index-1, dp);
+
+        return dp[index] = Math.max(pick, notpick);
+    }
+
+    public int hrob2(int[] nums){
+
+        int prev = 0, prev2 = 0;
+
+        for(int num: nums){
+            int current = Math.max(num + prev2, prev);
+            prev2 = prev;
+            prev = current;
+        }
+
+        return prev;
+
+    }
+}
