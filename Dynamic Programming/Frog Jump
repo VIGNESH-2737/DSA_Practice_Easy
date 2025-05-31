@@ -1,0 +1,42 @@
+// User function Template for Java
+
+import java.util.*;
+
+public class Solution {
+    static int minCost(int[] stones) {
+        // code here
+        int[] dp = new int[stones.length+1];
+        // Arrays.fill(dp, -1);
+        return canCross(stones ,stones.length-1, dp);
+    }
+    
+    static public int canCross(int[] stones, int index, int[] dp){
+
+        if(index <= 0) return 0;
+        
+        //if(dp[index] != -1) return dp[index];
+        
+        dp[0] = 0;
+        
+        int left = Integer.MAX_VALUE;
+        int right = Integer.MAX_VALUE;
+
+      for(int i=1; i< stones.length; i++){
+        left = dp[i-1] + Math.abs(stones[i]-stones[i-1]);
+        if(i > 1)
+            right = dp[i-2] + Math.abs(stones[i]-stones[i-2]);
+            
+        dp[i] = Math.min(left, right);
+      }
+        //System.out.println(dp[index]);
+        System.out.println(Arrays.toString(dp));
+        
+        return dp[index];
+    }
+    
+    public static void main(String[] args){
+      int[] stones = {10,30,40,20,50};
+      
+      System.out.println(minCost(stones));
+    }
+}
