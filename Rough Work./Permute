@@ -1,0 +1,60 @@
+// Permutation I
+
+class Solution {
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        boolean[] visited = new boolean[nums.length];
+        permute(nums, visited, new ArrayList<>(), result);
+        return result;
+    }
+
+    public void permute(int[] nums, boolean[] visited, List<Integer> list, List<List<Integer>> result){
+        if(list.size() == nums.length){
+            result.add(new ArrayList<>(list));
+            return;
+        }
+
+        for(int i = 0; i< nums.length; i++){// index blocking is not needed for permutation so i = 0;
+            if(!visited[i]){
+                visited[i] = true;
+                list.add(nums[i]);
+                permute(nums, visited, list, result);
+                list.remove(list.size()-1);
+                visited[i] = false;
+            }
+        }
+    }
+}
+
+// Permutation II 
+
+class Solution {
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        permute(nums, 0, result);
+        return result;
+    }
+    public void permute(int[] nums, int index, List<List<Integer>> result){
+        if(index == nums.length){
+            List<Integer> list = new ArrayList<>();
+            for(int x: nums)
+                list.add(x);
+            result.add(new ArrayList<>(list));
+            return;
+        }
+
+        for(int i= index; i< nums.length; i++){
+            swap(nums, i, index);
+            //list.add(nums[i]);
+            permute(nums, index+1, result);
+            //list.remove(list.size()-1);
+            swap(nums, i, index);
+        }
+    }
+
+    public void swap(int[] nums, int left, int right){
+        int temp = nums[left];
+        nums[left] = nums[right];
+        nums[right] = temp;
+    }
+}
