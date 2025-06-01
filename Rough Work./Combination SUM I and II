@@ -1,0 +1,66 @@
+// Combination Sum I
+
+class Solution {
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> ans = new ArrayList<>();
+        combinationSum(0, candidates, target, new ArrayList<>(), ans);
+        return ans;
+    }
+
+    public void combinationSum(int index, int[] candidates, int target, List<Integer> list, List<List<Integer>> result) {
+    
+        if(target < 0) return;
+        
+        if(index == candidates.length){
+            if(target == 0){
+                result.add(new ArrayList(list)); 
+            }
+            return;
+        }
+
+        
+        if(candidates[index] <= target){
+            list.add(candidates[index]);
+            combinationSum(index,  candidates,  target-candidates[index], list, result);
+            list.remove(list.size()-1);
+        }
+        combinationSum(index+1, candidates,  target, list, result);
+    }
+}
+
+
+
+
+/// Combination Sum II
+
+class Solution {
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        Arrays.sort(candidates);
+        List<List<Integer>> result = new ArrayList<>();
+        combinationSum2(0, candidates, target, new ArrayList<>(), result);
+        return result;        
+    }
+
+    public void combinationSum2(int index, int[] candidates, int target, List<Integer> list, List<List<Integer>> result){
+         if(target == 0){
+            result.add(new ArrayList<>(list));
+            return;
+         }
+       
+        //if(target < 0) return;
+
+        for(int i=index; i< candidates.length; i++){
+
+        if(i > index && candidates[i] == candidates[i-1]) continue;
+        if(target < candidates[i]) break;
+
+        
+        list.add(candidates[i]);
+        combinationSum2(i+1, candidates, target-candidates[i], list, result);
+        list.remove(list.size()-1);
+
+        }
+        
+    }
+
+}
