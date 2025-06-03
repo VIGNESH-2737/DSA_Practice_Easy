@@ -1,0 +1,62 @@
+import java.util.*;
+
+public class MealPlanner {
+
+    static class FoodItem {
+        String name;
+        int calories;
+
+        FoodItem(String name, int calories) {
+            this.name = name;
+            this.calories = calories;
+        }
+    }
+
+    public static void main(String[] args) {
+        FoodItem[] menu = {
+            new FoodItem("Apple", 95),
+            new FoodItem("Banana", 105),
+            new FoodItem("Carrot", 25),
+            new FoodItem("Bread Slice", 80)
+        };
+
+        int targetCalories = 300;
+
+        //Call your meal planner function here
+        List<List<String>> mealPlans = planMeals(menu, targetCalories);
+        //Print meal plans
+        for (List<String> plan : mealPlans) {
+            System.out.println(plan);
+        }
+    }
+
+    // Implement this method to find all combinations of FoodItem names that sum up to targetCalories
+    
+
+    public static List<List<String>> planMeals(FoodItem[] menu, int targetCalories) {
+        List<List<String>> result = new ArrayList<>();
+        planMeals(menu, targetCalories, 0, new ArrayList<>(), result);
+        
+        return result;
+    }
+    
+    public static void planMeals(FoodItem[] menu, int targetCalories, int index, List<String> list, List<List<String>> result){
+        
+        if(targetCalories < 0) return;
+        
+        if(index == menu.length){
+            if(targetCalories == 0){
+                result.add(new ArrayList<>(list));
+            }
+            return;
+        }
+        
+        if(menu[index].calories <= targetCalories){
+            list.add(menu[index].name);
+            planMeals(menu, targetCalories-menu[index].calories, index, list, result);
+            list.remove(list.size()-1);
+        }
+        planMeals(menu, targetCalories, index+1, list, result);
+    }
+
+}
