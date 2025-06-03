@@ -1,0 +1,53 @@
+import java.util.*;
+
+public class TestCombinationSum {
+
+    public static void main(String[] args) {
+        // Test input
+        int[] coins = {2, 3, 5};
+        int target = 8;
+
+        // Create instance of solution class
+        TestCombinationSum solution = new TestCombinationSum();
+
+        // Get combinations
+        List<List<Integer>> result = solution.combinationSum(coins, target);
+
+        // Print result
+        System.out.println("Combinations that sum to " + target + ":");
+        for (List<Integer> combination : result) {
+            System.out.println(combination);
+        }
+    }
+    
+    
+    public List<List<Integer>> combinationSum(int[] coins, int target){
+        
+        
+        
+        List<List<Integer>> result = new ArrayList<>();
+        
+        combinationSum(coins, target, 0, new ArrayList<>(), result);
+        
+        return result;
+    
+        
+    }
+    
+    public void combinationSum(int[] coins, int target, int index,List<Integer> list, List<List<Integer>> result){
+        
+        if(index == coins.length){
+            if(target == 0){
+                result.add(new ArrayList<>(list));
+            }
+            return;
+        }
+        
+        if(coins[index] <= target){
+            list.add(coins[index]);
+            combinationSum(coins, target-coins[index], index, list, result);
+            list.remove(list.size()-1);
+        }
+        combinationSum(coins, target, index+1, list, result);
+    }
+}
