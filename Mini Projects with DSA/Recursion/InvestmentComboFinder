@@ -1,0 +1,69 @@
+// Combination Sum II
+
+import java.util.*;
+
+public class InvestmentComboFinder {
+
+    // Investment class with name and cost
+    static class Investment {
+        String name;
+        int cost;
+
+        Investment(String name, int cost) {
+            this.name = name;
+            this.cost = cost;
+        }
+    }
+
+    public static void main(String[] args) {
+        // Sample investment options
+        Investment[] options = {
+            new Investment("Gold Bonds", 100),
+            new Investment("Mutual Fund A", 150),
+            new Investment("Mutual Fund B", 150),
+            new Investment("REIT", 200),
+            new Investment("Stock A", 250),
+            new Investment("Stock B", 300)
+        };
+
+        int investmentBudget = 300;
+
+        // Get possible investment combinations
+        List<List<String>> portfolios = findInvestmentCombos(options, investmentBudget);
+
+        // Print the combinations
+        System.out.println("Possible investment portfolios within budget:");
+        for (List<String> portfolio : portfolios) {
+            System.out.println(portfolio);
+        }
+    }
+
+    // Method to be implemented using backtracking
+    public static List<List<String>> findInvestmentCombos(Investment[] options, int budget) {
+        List<List<String>> result = new ArrayList<>();
+        Arrays.sort(options, Comparator.comparingInt(i -> i.cost)); // Sort for pruning
+        findCombos(options, budget, 0, new ArrayList<>(), result);
+        return result;
+    }
+
+    // Backtracking helper method (implement logic inside)
+    public static void findCombos(Investment[] options, int budget, int index,
+                                  List<String> currentCombo, List<List<String>> result) {
+        // TODO: Implement the backtracking logic
+        if(budget == 0){
+            result.add(new ArrayList<>(currentCombo));
+            return;
+        }
+        
+        for(int i= index; i< options.length; i++){
+            
+            if(options[i].cost > budget) break;
+            
+            if(i > index && options[i].cost == options[i-1].cost && (options[i].name).equals(options[i-1].name)) continue;
+            
+            currentCombo.add(options[i].name);
+            findCombos(options, budget-options[i].cost, index+1,currentCombo, result);
+            currentCombo.remove(currentCombo.size()-1);
+        }
+    }
+}
