@@ -1,0 +1,72 @@
+import java.util.*;
+
+public class OneTimePurchaseComboFinder {
+
+    // Product class with name and price
+    static class Product {
+        String name;
+        int price;
+
+        Product(String name, int price) {
+            this.name = name;
+            this.price = price;
+        }
+    }
+
+    public static void main(String[] args) {
+        // Sample product list (can have duplicate prices)
+        Product[] products = {
+            new Product("Bag", 150),
+            new Product("Pen", 20),
+            new Product("Notebook", 50),
+            new Product("Water Bottle", 80),
+            new Product("Lunch Box", 80),
+            new Product("Folder", 100)
+        };
+
+        int budget = 150;
+
+        // Find unique combinations
+        List<List<String>> combinations = findUniqueCombos(products, budget);
+
+        // Print results
+        System.out.println("Unique combinations within budget:");
+        for (List<String> combo : combinations) {
+            System.out.println(combo);
+        }
+    }
+
+    // Method to find combinations (implement this using backtracking)
+    public static List<List<String>> findUniqueCombos(Product[] products, int target) {
+        List<List<String>> result = new ArrayList<>();
+        // Use sorting + backtracking with pruning to avoid duplicates
+        Arrays.sort(products, Comparator.comparingInt(p -> p.price));
+        findUniqueCombos(products, target, 0, new ArrayList<>(), result);
+
+        return result;
+    }
+    
+    public static void findUniqueCombos(Product[] products,int target, int index, List<String> list, List<List<String>> result){
+        
+        //if(index == products.length){
+            if(target == 0){
+                result.add(new ArrayList<>(list));
+                return;
+            }
+        //}
+        
+        for(int i=index; i< products.length; i++){
+            
+            if(products[i].price > target) break;
+            
+            if( i != index && (products[i].price == products[i-1].price && (products[i].name).equals(products[i-1].name) )) continue;
+            
+            list.add(products[i].name);
+            
+            findUniqueCombos(products, target-products[i].price, i+1, list, result);
+        
+            list.remove(list.size()-1);
+        }
+    }
+    
+}
