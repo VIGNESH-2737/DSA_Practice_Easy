@@ -1,0 +1,92 @@
+// sort 0s , 1s and 2s.
+
+public class Solution {
+    public void sortColors(int[] nums) {
+        int low = 0, mid = 0, high = nums.length - 1;
+
+        while (mid <= high) {
+            if (nums[mid] == 0) {
+                // Swap nums[low] and nums[mid]
+                int temp = nums[low];
+                nums[low] = nums[mid];
+                nums[mid] = temp;
+                low++;
+                mid++;
+            } else if (nums[mid] == 1) {
+                mid++;
+            } else { // nums[mid] == 2
+                // Swap nums[mid] and nums[high]
+                int temp = nums[mid];
+                nums[mid] = nums[high];
+                nums[high] = temp;
+                high--;
+            }
+        }
+    }
+}
+
+// Maximum Subarray Sum
+
+class Solution {
+    public int maxSubArray(int[] nums) {
+        int maxSum = nums[0];
+        int total = 0;
+
+        for(int i=0; i< nums.length; i++){
+            if(total < 0)
+                total = 0;
+    
+                total += nums[i];
+                maxSum = Math.max(total, maxSum); 
+        }
+
+        return maxSum;
+    }
+}
+
+// Kadane Algorithm
+
+public class Main {
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        int[] nums = {-2, 1, -3, 4, -1, 2, 1, -5, 4};
+        int maxSum = sol.maxSubArray(nums);
+        System.out.println("Maximum Subarray Sum: " + maxSum);
+    }
+}
+
+class Solution{
+    
+
+    
+    public static int maxSubArray(int[] nums){
+        
+        int start = 0;
+        int end = 0;
+        int tempStart = 0;
+        int maxSum = nums[0];
+        int total = nums[0];
+        
+        for(int i=1; i< nums.length; i++){
+            total += nums[i];
+            
+            if(total < 0){
+                total = 0;
+                tempStart = i+1;
+            }
+            
+            if(total > maxSum){
+                maxSum = total;
+                start = tempStart;
+                end = i;
+            }
+        }
+        
+        for(int i=start; i<= end; i++){
+            System.out.print(nums[i]+" " );
+        }
+        
+        return maxSum;
+        
+    }
+}
