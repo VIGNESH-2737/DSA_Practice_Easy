@@ -90,3 +90,291 @@ class Solution{
         
     }
 }
+
+// best-time-to-buy-and-sell-stock
+
+class Solution {
+    public int maxProfit(int[] prices) {
+        int min = prices[0];
+        int profit=0;
+        for(int i=1; i<prices.length; i++){
+            int currentPriceDiff = prices[i]-min;
+            if(prices[i] < min){
+                min = prices[i];
+            }
+            if((currentPriceDiff) > profit){
+                profit = currentPriceDiff;
+            }
+        }
+
+        return profit;
+    }
+}
+
+// rearrange-array-elements-by-sign
+
+class Solution {
+    public int[] rearrangeArray(int[] nums) {
+        int[] pos = new int[nums.length/2+1];
+        int[] neg = new int[nums.length/2+1];
+        int p=0, n=0;
+
+        for(int i=0; i< nums.length; i++){
+            if(nums[i] > 0)
+                pos[p++] = nums[i];
+            else
+                neg[n++] = nums[i]; 
+        }
+
+        for(int i=0; i< nums.length/2; i++){
+            nums[2*i] = pos[i];
+            nums[2*i+1] = neg[i];
+        }
+
+        return nums;
+    }
+}
+
+// Next Permutation
+
+class Solution {
+    public void nextPermutation(int[] nums) {
+        int index = -1;
+
+        for(int i=nums.length-2; i>=0; i--){
+                if(nums[i+1] > nums[i]){
+                    index = i;
+                    break;
+                }
+        }
+
+        if(index == -1){
+            for(int i=0; i< nums.length/2; i++){
+                int temp = nums[i];
+                nums[i] = nums[nums.length-i-1];
+                nums[nums.length-i-1] = temp;
+            }
+        
+        }else{
+
+        for(int i=nums.length-1; i > index; i--){
+            if(nums[i] > nums[index]){
+                int temp = nums[i];
+                nums[i] = nums[index];
+                nums[index] = temp;
+                break;
+            }
+        }
+
+        int left = index+1;
+        int right = nums.length-1;
+
+
+        while(left < right){
+            int temp = nums[left];
+            nums[left] = nums[right];
+            nums[right] = temp;
+            left++;
+            right--;
+        }
+
+
+        }
+
+
+        //return nums;
+    }
+}
+
+//// Leaders in an Array
+
+
+
+
+import java.util.*;
+
+class TUF{
+
+public static ArrayList<Integer> 
+                     printLeadersBruteForce(int[] arr, int n){
+    
+  ArrayList<Integer> ans= new ArrayList<>();
+  
+   // Last element of an array is always a leader,
+   // push into ans array.
+   int max = arr[n - 1];
+
+    ans.add(arr[n-1]);
+    
+    // Start checking from the end whether a number is greater
+    // than max no. from right, hence leader.
+    for (int i = n - 2; i >= 0; i--)
+      if (arr[i] > max) {
+        ans.add(arr[i]);
+        max = arr[i];
+      }
+
+  return ans;
+   
+}
+
+public static void main(String args[]) 
+{
+  // Array Initialization.
+  int n = 6;
+  int arr[]=  {10, 22, 12, 3, 0, 6};
+
+
+  ArrayList<Integer> ans= printLeadersBruteForce(arr,n);
+  
+  Collections.sort(ans, Collections.reverseOrder());
+  
+  for (int i = 0; i < ans.size(); i++) {
+    System.out.print(ans.get(i)+" ");
+  }
+
+}
+}
+
+///// Longest Consecutive Sequence in an Array
+
+class Solution {
+    public int longestConsecutive(int[] nums) {
+        if(nums.length == 0) return 0;
+
+        Set<Integer> set = new HashSet<>();
+
+        for(int i=0; i<nums.length; i++){
+            set.add(nums[i]);
+        }
+
+        int count=1;
+        int maxCount = 1;
+
+        for(int element : set){
+            if(!set.contains(element-1)){
+                count = 1;
+                while(set.contains(element+1)){
+                    ++count;
+                    ++element;
+                }
+            }
+
+            maxCount = Math.max(count, maxCount);
+        }
+
+
+        return maxCount;
+    }
+}
+
+// Set Matrix Zero
+
+
+import java.util.*;
+
+public class Main {
+    static ArrayList<ArrayList<Integer>> zeroMatrix(ArrayList<ArrayList<Integer>> matrix, int n, int m) {
+        // int[] row = new int[n]; --> matrix[..][0]
+        // int[] col = new int[m]; --> matrix[0][..]
+
+        int col0 = 1;
+        // step 1: Traverse the matrix and
+        // mark 1st row & col accordingly:
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (matrix.get(i).get(j) == 0) {
+                    // mark i-th row:
+                    matrix.get(i).set(0, 0);
+
+                    // mark j-th column:
+                    if (j != 0)
+                        matrix.get(0).set(j, 0);
+                    else
+                        col0 = 0;
+                }
+            }
+        }
+
+        // Step 2: Mark with 0 from (1,1) to (n-1, m-1):
+        for (int i = 1; i < n; i++) {
+            for (int j = 1; j < m; j++) {
+                if (matrix.get(i).get(j) != 0) {
+                    // check for col & row:
+                    if (matrix.get(i).get(0) == 0 || matrix.get(0).get(j) == 0) {
+                        matrix.get(i).set(j, 0);
+                    }
+                }
+            }
+        }
+
+        //step 3: Finally mark the 1st col & then 1st row:
+        if (matrix.get(0).get(0) == 0) {
+            for (int j = 0; j < m; j++) {
+                matrix.get(0).set(j, 0);
+            }
+        }
+        if (col0 == 0) {
+            for (int i = 0; i < n; i++) {
+                matrix.get(i).set(0, 0);
+            }
+        }
+
+        return matrix;
+    }
+
+    public static void main(String[] args) {
+        ArrayList<ArrayList<Integer>> matrix = new ArrayList<>();
+        matrix.add(new ArrayList<>(Arrays.asList(1, 1, 1)));
+        matrix.add(new ArrayList<>(Arrays.asList(1, 0, 1)));
+        matrix.add(new ArrayList<>(Arrays.asList(1, 1, 1)));
+
+        int n = matrix.size();
+        int m = matrix.get(0).size();
+
+        ArrayList<ArrayList<Integer>> ans = zeroMatrix(matrix, n, m);
+
+        System.out.println("The Final matrix is: ");
+        for (ArrayList<Integer> row : ans) {
+            for (Integer ele : row) {
+                System.out.print(ele + " ");
+            }
+            System.out.println();
+        }
+    }
+}
+
+// Rotate Image
+
+class Solution {
+    public void rotate(int[][] matrix) {
+        
+        transpose(matrix);
+         
+
+        for(int i=0; i< matrix.length; i++){
+            reverse(matrix, i, 0, i, matrix[0].length-1);
+        }
+    }
+
+    public void transpose(int[][] matrix){
+        for(int i=0; i< matrix.length; i++){
+            for(int j=i+1; j< matrix[0].length; j++){
+                int temp = matrix[i][j];
+                matrix[i][j] = matrix[j][i];
+                matrix[j][i] = temp;
+            }
+        }
+    }
+
+    public void reverse(int[][] matrix, int row1, int col1, int row2, int col2){
+        
+        while(col1 < col2){
+            int temp = matrix[row1][col1];
+            matrix[row1][col1] = matrix[row1][col2];
+            matrix[row1][col2] = temp;
+            col1++;
+            col2--;
+        }
+    }
+}
