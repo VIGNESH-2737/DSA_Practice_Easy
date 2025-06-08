@@ -1,0 +1,124 @@
+// Pascal Triangle
+
+class Solution {
+    public List<List<Integer>> generate(int numRows) {
+        int n = numRows;
+        List<List<Integer>> result = new ArrayList<>();
+        for(int n1= 1; n1 <= n; n1++){
+        List<Integer> list = new ArrayList<>();
+        int ans = 1;
+        list.add(ans);
+        for(int i=1; i< n1; i++){
+            ans = ((ans*(n1-i))/i);
+            list.add(ans);
+        }
+        result.add(new ArrayList<>(list));
+        }
+
+        //System.out.println(result);
+        return result;
+    }
+
+}
+
+// Majority Element II
+
+class Solution {
+    public List<Integer> majorityElement(int[] nums) {
+       int element1 = 0; 
+       int element2 = 0; 
+       int count1 = 0;
+       int count2 = 0;
+
+       for(int i=0; i< nums.length; i++){
+
+        if(count1 == 0 && nums[i] != element2){
+            count1 = 1;
+            element1 = nums[i];
+        }else if(count2 == 0 && nums[i] != element1){
+            count2 = 1;
+            element2 = nums[i];
+        }else if(nums[i] == element1){
+            count1++;
+        }else if(nums[i] == element2){
+            count2++;
+        }else{
+            count1--;
+            count2--;
+        }
+       }
+
+       List<Integer> result = new ArrayList<>();
+        count1 = 0; count2 = 0;
+        for(int i=0; i< nums.length; i++){
+            if(element1 == nums[i]) count1++;
+            if(element2 == nums[i]) count2++;
+        }
+
+        if(count1 > Math.floor(nums.length/3)) result.add(element1);
+        if(count2 > Math.floor(nums.length/3)) { if(element1 != element2) result.add(element2);}
+
+        return result;  
+    }
+}
+
+// 3Sum 
+
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        
+        Arrays.sort(nums);
+        
+        List<List<Integer>> result = new ArrayList<>();
+
+
+        for(int i=0; i< nums.length-2; i++){
+            int j=i+1; 
+            int k = nums.length-1;
+
+            if (i > 0 && nums[i] == nums[i - 1]) continue;
+
+            
+
+           // if(i >= nums.length) break;
+            
+            while(j < k){
+
+            int sum = (nums[i] + nums[j] + nums[k]);
+
+            //if(i >= j || i >= k) break;
+
+            if( sum == 0){
+                List<Integer> list = new ArrayList<>();
+                list.add(nums[i]);
+                list.add(nums[j]);
+                list.add(nums[k]);
+                result.add(new ArrayList<>(list));
+               
+                int currentJ = nums[j];
+                int currentK = nums[k];
+
+                while (j < k && nums[j] == currentJ) j++;
+                while (j < k && nums[k] == currentK) k--;
+               
+               // j++;
+               // k--;
+                //break;
+            }else if(sum < 0){
+                int key = nums[j];
+                while(key == nums[j] && j < nums.length-1){
+                    j++;
+                }
+            }else if(sum > 0){
+                int key = nums[k];
+                while(key == nums[k] && k > 0){
+                    k--;
+                }
+            }
+
+            }
+        }
+
+        return result;
+    }
+}
