@@ -1,0 +1,117 @@
+public class BinarySearchOps {
+
+    // 1. Lower Bound: first index where arr[i] >= key
+    public static int lowerBound(int[] arr, int key) {
+        // implement here
+        
+        if(arr.length == 0){
+            return -1;
+        }
+        
+        int low = 0, high = arr.length-1;
+        int ans=arr.length;
+        while(low <= high){
+            
+            int mid = low + (high - low) /2;
+            
+            if(arr[mid] >= key){
+                ans = mid;
+                
+                high = mid-1;
+            }else{
+                low = mid+1;
+            }
+        }
+        
+        
+        return ans;
+    }
+
+    // 2. Upper Bound: first index where arr[i] > key
+    public static int upperBound(int[] arr, int key) {
+        // implement here
+        int low =0, high = arr.length-1;
+        int ans= arr.length;
+        
+        while(low <= high){
+            
+            int mid = (low+high)/2;
+            
+            if(arr[mid] > key){
+                ans = mid;
+                high = mid-1;
+            }else{
+                low = mid+1;
+            }
+        }
+        
+        return ans;
+    }
+
+    // 3. Insert Position (same as lower bound)
+    public static int insertPosition(int[] arr, int key) {
+        return lowerBound(arr, key);
+    }
+
+    // 4. Floor: greatest element <= key
+    public static int floor(int[] arr, int key) {
+        // implement here
+        
+        int low = 0; int high=arr.length-1;
+        int ans = -1;
+        
+        while(low <= high){
+            
+            int mid = (low+high)/2;
+            
+            if(arr[mid] <= key){
+                ans = arr[mid];
+                low = mid+1;
+            }else{
+                high = mid-1;
+            }
+        }
+        
+        return ans;
+        
+        
+        // int index = lowerBound(arr,key);
+        // return (index != 0 ? arr[index-1]: arr[0]);
+    }
+
+    // 5. Ceil: smallest element >= key
+    public static int ceil(int[] arr, int key) {
+        // implement here
+        int low = 0; int high = arr.length-1;
+        int ans = -1;
+        
+        while(low <= high){
+            
+            int mid = (low + high)/2;
+            
+            if(arr[mid] >= key){
+                ans = arr[mid];
+                high = mid-1;
+            }else{
+                low = mid + 1;
+            }
+            
+        }
+        
+        return ans;
+        
+        // int index = upperBound(arr, key);
+        // return (index != arr.length-1) ? arr[index] : arr[arr.length-1];
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {1, 2, 4, 4, 5, 7, 9, 10};
+        int key = 4;
+
+        System.out.println("Lower Bound Index: " + lowerBound(arr, key));
+        System.out.println("Upper Bound Index: " + upperBound(arr, key));
+        System.out.println("Insert Position: " + insertPosition(arr, key));
+        System.out.println("Floor Element: " + floor(arr, key));
+        System.out.println("Ceil Element: " + ceil(arr, key));
+    }
+}
